@@ -2,7 +2,7 @@ Bootstrap: docker
 From: centos:7.4.1708
 
 %labels
-MAINTAINER  Jonathan Ellis
+MAINTAINER  Jonathan Ellis <jonathan.j.ellis@gmail.com>
 
 
 %environment
@@ -36,6 +36,11 @@ useradd easybuild
 chown easybuild:easybuild -R /app
 chown easybuild:easybuild -R /scratch
 su - easybuild
+
+mkdir -p ~/.ssh
+ssh-keyscan -H bitbucket.org >> ~/.ssh/known_hosts
+ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+
 export EASYBUILD_PREFIX=/app
 export EASYBUILD_CONFIGFILES=/app/eb_local/config.cfg
 cd $EASYBUILD_PREFIX
