@@ -1,0 +1,33 @@
+Bootstrap: shub
+From: ellisjj/atgc-singularity:centos7-easybuild
+
+%labels
+MAINTAINER Jonathan Ellis <jonathan.j.ellis@gmail.com>
+
+%environment
+  source /etc/profile
+  module use /app/modules/all
+
+%post
+
+# change to 'easybuild' user
+su - easybuild
+mkdir -p ~/.ssh
+export EASYBUILD_PREFIX=/app
+export EASYBUILD_CONFIGFILES=/app/eb_local/config.cfg
+module use /app/modules/all
+module load easybuild
+
+cd /app/eb_local
+git pull
+
+eb foss-2018a.eb --robot
+
+# exit from 'easybuild' user
+exit
+
+# cleanup
+rm -rf /app/sources/* 
+
+%runscript
+eval "$@"
