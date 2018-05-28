@@ -5,14 +5,16 @@ From: ellisjj/atgc-singularity:centos7-easybuild
 MAINTAINER Jonathan Ellis <jonathan.j.ellis@gmail.com>
 
 %environment
-  source /etc/profile
-  module use /app/modules/all
+source /etc/profile
+export EASYBUILD_PREFIX=/app
+export EASYBUILD_CONFIGFILES=/app/eb_local/config.cfg
+module use /app/modules/all
 
 %post
 
 # change to 'easybuild' user
 su - easybuild
-mkdir -p ~/.ssh
+. /etc/profile
 export EASYBUILD_PREFIX=/app
 export EASYBUILD_CONFIGFILES=/app/eb_local/config.cfg
 module use /app/modules/all
