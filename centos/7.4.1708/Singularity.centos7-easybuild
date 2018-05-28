@@ -21,8 +21,8 @@ yum install -y which curl git python-pip python-devel Lmod perl-core libibverbs-
 # yum install ruby ruby-devel rubygems -y &&
 # gem install fpm &&
 
-pip install --upgrade pip
-pip install setuptools
+#pip install --upgrade pip
+#pip install setuptools
 # pip install easybuild
 
 # need this for git integration with eb
@@ -31,15 +31,15 @@ pip install setuptools
 mkdir -p /app/modules
 mkdir -p /app/software
 mkdir -p /app/sources
-mkdir -p /scratch/tmp
+#mkdir -p /scratch/tmp
 useradd easybuild
 chown easybuild:easybuild -R /app
-chown easybuild:easybuild -R /scratch
+#chown easybuild:easybuild -R /scratch
 su - easybuild
 
-mkdir -p ~/.ssh
-ssh-keyscan -H bitbucket.org >> ~/.ssh/known_hosts
-ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+#mkdir -p ~/.ssh
+#ssh-keyscan -H bitbucket.org >> ~/.ssh/known_hosts
+#ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
 export EASYBUILD_PREFIX=/app
 export EASYBUILD_CONFIGFILES=/app/eb_local/config.cfg
