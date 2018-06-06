@@ -1,0 +1,39 @@
+Bootstrap: docker
+From: centos:centos7
+
+%labels
+    AUTHOR jonathan.j.ellis@gmail.com
+    VERSION 1.0
+
+%environment
+    export PATH=/opt/ensembl-vep:/opt/htslib:$PATH
+    export LANG=en_US.UTF-8
+    export LANGUAGE=en_US:en
+
+%post
+
+yum install -y epel-release
+yum group install -y "Development Tools"
+yum install -y bzip2 bzip2-devel xz-devel curl unzip which zlib-devel perl perl-core perl-DBD-MySQL perl-Archive-Zip perl-JSON perl-PerlIO-gzip perl-App-cpanminus
+
+cpanm Set::IntervalTree
+
+# This requires (interactively) the location of the Kent source tree
+#cpanm Bio::DB::BigFile
+
+cd /opt
+curl -L https://github.com/samtools/htslib/releases/download/1.7/htslib-1.7.tar.bz2 | tar jx
+mv htslib-1.7 htslib
+cd htslib
+./configure
+make
+make install
+cd ..
+
+cd /opt
+git clone https://github.com/Ensembl/ensembl-vep.git
+cd ensembl-vep
+git checkout -b release/91.1 release/91.1
+perl INSTALL.pl -a al -l -n
+
+yum --setopt=groupremove_leaf_only=1 groupremove -y "Development Tools"
