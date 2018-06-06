@@ -1,0 +1,30 @@
+Bootstrap: docker
+From: centos:centos7
+
+%labels
+    AUTHOR jonathan.j.ellis@gmail.com
+    VERSION 2.1.9
+
+%files
+
+canvas.sh
+
+
+%environment
+
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US:en
+export PATH=/opt/canvas-1.11.0:$PATH
+
+%post
+
+yum install -y epel-release
+yum install -y mono-mvc unzip
+
+cd /opt
+curl -L -O https://github.com/Illumina/canvas/releases/download/v1.11.0/Canvas-1.11.0_x64.zip
+unzip Canvas-1.11.0_x64.zip
+mv 1.11.0 canvas-1.11.0
+rm /opt/Canvas-1.11.0_x64.zip
+mv /canvas.sh /opt/canvas-1.11.0/canvas
+chmod a+x /opt/canvas-1.11.0/canvas
